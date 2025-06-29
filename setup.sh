@@ -1,25 +1,41 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
-# ----------------------------------
-# Termux Tools Setup by kmedya-dev
-# ----------------------------------
+echo -e "\n🚀 Starting fresh Termux setup..."
 
-echo -e "\033[1;32m[+] Updating packages...\033[0m"
+# 🧼 Reset Termux official repo (if corrupted or old)
+echo -e "\n🔧 Resetting official Termux repositories..."
+termux-change-repo
 pkg update -y && pkg upgrade -y
 
-echo -e "\033[1;32m[+] Installing essential packages...\033[0m"
-pkg install -y git curl wget nano vim python nodejs
+# 🛠 Essential packages
+echo -e "\n📦 Installing dev essentials..."
+pkg install -y git curl wget nano vim neovim clang python
 
-echo -e "\033[1;32m[+] Setting up storage access...\033[0m"
-termux-setup-storage
-
-echo -e "\033[1;32m[+] Installing Python packages...\033[0m"
+# 🐍 Python pip and common modules
+echo -e "\n🐍 Setting up Python environment..."
 pip install --upgrade pip
-pip install requests beautifulsoup4
+pip install requests rich
 
-echo -e "\033[1;32m[+] Creating bin directory and alias...\033[0m"
-mkdir -p ~/bin
-echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
-source ~/.bashrc
+# ⚙️ HTML, CSS, JS support (basics)
+echo -e "\n🌐 Setting up frontend dev support..."
+pkg install -y nodejs
 
-echo -e "\033[1;34m[*] All done! Termux is now ready, Koustava 🚀\033[0m"
+# 🔁 Gemini CLI (assumes you use memory with it)
+echo -e "\n🌠 Installing Gemini CLI (with memory)..."
+npm install -g @google/gemini-cli
+
+echo -e "\n✨ Gemini CLI installed globally! You can use:"
+echo -e "   gemini chat --memory\n"
+
+# 🧠 Optional: create Gemini memory folder
+mkdir -p ~/.gemini/memory
+
+# ✅ Final check
+echo -e "\n✅ All set, fam. Here's what you got now:\n"
+echo -e " - Editors: nano, vim, neovim"
+echo -e " - Git: configured and ready"
+echo -e " - Languages: Python, C (clang), JS (node)"
+echo -e " - Gemini CLI with memory"
+echo -e " - Termux repo is clean"
+
+echo -e "\n🧃 You’re ready to build. Stay grinding!\n"
