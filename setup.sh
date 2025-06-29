@@ -1,41 +1,44 @@
+cat > termux-setup.sh << 'EOF'
 #!/data/data/com.termux/files/usr/bin/bash
 
-echo -e "\n🚀 Starting fresh Termux setup..."
-
-# 🧼 Reset Termux official repo (if corrupted or old)
-echo -e "\n🔧 Resetting official Termux repositories..."
-termux-change-repo
+# 🎯 Refresh the official Termux repo
+echo "🔁 Updating Termux packages..."
 pkg update -y && pkg upgrade -y
 
-# 🛠 Essential packages
-echo -e "\n📦 Installing dev essentials..."
-pkg install -y git curl wget nano vim neovim clang python
+# 📦 Install Editors
+echo "🛠 Installing editors: nano, vim, neovim..."
+pkg install -y nano vim neovim
 
-# 🐍 Python pip and common modules
-echo -e "\n🐍 Setting up Python environment..."
+# 💻 Install Programming Tools
+echo "🐍 Installing project tools: Python, C, HTML/CSS/JS..."
+pkg install -y python clang nodejs
+
+# 🧠 Enable pip & some extras
 pip install --upgrade pip
-pip install requests rich
+pip install rich requests
 
-# ⚙️ HTML, CSS, JS support (basics)
-echo -e "\n🌐 Setting up frontend dev support..."
-pkg install -y nodejs
+# 🌀 Install Git
+echo "🔗 Installing Git..."
+pkg install -y git
 
-# 🔁 Gemini CLI (assumes you use memory with it)
-echo -e "\n🌠 Installing Gemini CLI (with memory)..."
-npm install -g @google/gemini-cli
+# 🌐 Install Gemini CLI with memory
+echo "🚀 Installing Gemini CLI (with memory)..."
+pkg install -y curl unzip
+curl -LO https://github.com/itsmevishaljadhav/Gemini-CLI/raw/main/gemini-cli.zip
+unzip gemini-cli.zip -d gemini-cli
+cd gemini-cli
+chmod +x gemini
+mv gemini /data/data/com.termux/files/usr/bin/
+cd .. && rm -rf gemini-cli gemini-cli.zip
+echo "📌 Gemini CLI installed as 'gemini' command. Memory feature built-in."
 
-echo -e "\n✨ Gemini CLI installed globally! You can use:"
-echo -e "   gemini chat --memory\n"
+# ✅ Enable Termux official repository (if not already)
+echo "📚 Checking Termux official repo..."
+termux-change-repo
 
-# 🧠 Optional: create Gemini memory folder
-mkdir -p ~/.gemini/memory
+# 🏪 Optional: Install Termux tools like storage access
+echo "🗂 Enabling Termux storage access..."
+termux-setup-storage
 
-# ✅ Final check
-echo -e "\n✅ All set, fam. Here's what you got now:\n"
-echo -e " - Editors: nano, vim, neovim"
-echo -e " - Git: configured and ready"
-echo -e " - Languages: Python, C (clang), JS (node)"
-echo -e " - Gemini CLI with memory"
-echo -e " - Termux repo is clean"
-
-echo -e "\n🧃 You’re ready to build. Stay grinding!\n"
+echo "🎉 Setup complete! Restart Termux if needed."
+EOF
